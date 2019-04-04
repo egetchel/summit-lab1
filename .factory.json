@@ -1,0 +1,111 @@
+{
+  "v": "4.0",
+  "name": "transitioning-lab",
+  "workspace": {
+    "defaultEnv": "default",
+    "environments": {
+      "default": {
+        "machines": {
+          "dev-machine": {
+            "attributes": {
+              "memoryLimitBytes": "2147483648"
+            },
+            "servers": {
+              "tomcat8-debug": {
+                "attributes": {},
+                "port": "8000",
+                "protocol": "http"
+              },
+              "codeserver": {
+                "attributes": {},
+                "port": "9876",
+                "protocol": "http"
+              },
+              "tomcat8": {
+                "attributes": {},
+                "port": "8080",
+                "protocol": "http"
+              }
+            },
+            "volumes": {},
+            "installers": [
+              "org.eclipse.che.ws-agent",
+              "org.eclipse.che.terminal",
+              "org.eclipse.che.exec"
+            ],
+            "env": {
+              "CHE_MACHINE_NAME": "dev-machine"
+            }
+          }
+        },
+        "recipe": {
+          "type": "dockerimage",
+          "content": "eclipse/ubuntu_jdk8"
+        }
+      }
+    },
+    "projects": [
+      {
+        "links": [],
+        "name": "SampleWebApp",
+        "attributes": {},
+        "type": "maven",
+        "path": "/SampleWebApp",
+        "description": "Simple Web application that needs to be deployed to some Java container",
+        "problems": [],
+        "mixins": []
+      }
+    ],
+    "name": "transitioning-applications-rh-summit-2019",
+    "commands": [
+      {
+        "commandLine": "$TOMCAT_HOME/bin/shutdown.sh",
+        "name": "stopTomcat",
+        "attributes": {},
+        "type": "custom"
+      },
+      {
+        "commandLine": "$TOMCAT_HOME/bin/startup.sh",
+        "name": "startTomcat",
+        "attributes": {},
+        "type": "custom"
+      },
+      {
+        "commandLine": "mvn clean install -f ${current.project.path} && cp ${current.project.path}/target/*.war $TOMCAT_HOME/webapps/ROOT.war",
+        "name": "deploy",
+        "attributes": {
+          "goal": "Deploy",
+          "previewUrl": "${server.tomcat8}"
+        },
+        "type": "mvn"
+      },
+      {
+        "commandLine": "mvn clean install -f ${current.project.path}",
+        "name": "build",
+        "attributes": {
+          "goal": "Build",
+          "previewUrl": ""
+        },
+        "type": "mvn"
+      }
+    ],
+    "links": []
+  },
+  "ide": {
+    "onProjectsLoaded": {
+      "actions": [
+        {
+          "properties": {
+            "name": "startTomcat"
+          },
+          "id": "runCommand"
+        }
+      ]
+    }
+  },
+  "creator": {
+    "name": "edeandrea",
+    "email": "eric.deandrea@redhat.com"
+  }
+}
+
