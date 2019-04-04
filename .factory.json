@@ -12,79 +12,119 @@
             },
             "servers": {
               "tomcat8-debug": {
-                "attributes": {},
                 "port": "8000",
-                "protocol": "http"
-              },
-              "codeserver": {
                 "attributes": {},
-                "port": "9876",
                 "protocol": "http"
               },
               "tomcat8": {
-                "attributes": {},
                 "port": "8080",
+                "attributes": {},
                 "protocol": "http"
               }
             },
-            "volumes": {},
+            "volumes": {
+              "m2": {
+                "path": "/home/jboss/.m2"
+              },
+              "javadata": {
+                "path": "/home/jboss/jdtls/data"
+              }
+            },
             "installers": [
-              "org.eclipse.che.ws-agent",
+              "org.eclipse.che.exec",
               "org.eclipse.che.terminal",
-              "org.eclipse.che.exec"
+              "org.eclipse.che.ws-agent",
+              "org.eclipse.che.ls.java",	
+              "com.redhat.bayesian.lsp"
             ],
-            "env": {
-              "CHE_MACHINE_NAME": "dev-machine"
-            }
+            "env": {}
           }
         },
         "recipe": {
           "type": "dockerimage",
-          "content": "eclipse/ubuntu_jdk8"
+          "content": "edeandrea/stacks-java-tomcat8"
         }
       }
     },
     "projects": [
       {
         "links": [],
+        "name": "transitioning-applications",
+        "attributes": {},
+        "type": "blank",
+        "source": {
+          "location": "https://gitlab.com/edeandrea/transitioning-existing-applications-to-containers-its-easier-than-you-think.git",
+          "type": "git",
+          "parameters": {}
+        },
+        "path": "/transitioning-applications",
+        "problems": [],
+        "mixins": []
+      },
+      {
+        "links": [],
         "name": "SampleWebApp",
         "attributes": {},
         "type": "maven",
-        "path": "/SampleWebApp",
-        "description": "Simple Web application that needs to be deployed to some Java container",
+        "path": "/transitioning-applications/projects/SampleWebApp",
         "problems": [],
         "mixins": []
       }
     ],
-    "name": "transitioning-applications-rh-summit-2019",
+    "name": "transitioning-lab",
+    "attributes": {},
     "commands": [
+      {
+        "commandLine": "mvn clean install -f ${current.project.path}/pom.xml",
+        "name": "build",
+        "attributes": {
+          "goal": "Build",
+          "previewUrl": ""
+        },
+        "type": "mvn"
+      },
+      {
+        "commandLine": "${HOME}/stack-analysis.sh -f ${current.project.path}/pom.xml -p ${current.project.path}",
+        "name": "dependency_analysis",
+        "attributes": {
+          "goal": "Run",
+          "previewUrl": ""
+        },
+        "type": "custom"
+      },
       {
         "commandLine": "$TOMCAT_HOME/bin/shutdown.sh",
         "name": "stopTomcat",
-        "attributes": {},
+        "attributes": {
+          "goal": "Run",
+          "previewUrl": ""
+        },
         "type": "custom"
       },
       {
         "commandLine": "$TOMCAT_HOME/bin/startup.sh",
         "name": "startTomcat",
-        "attributes": {},
+        "attributes": {
+          "goal": "Run",
+          "previewUrl": "${server.tomcat8}"
+        },
         "type": "custom"
       },
       {
-        "commandLine": "mvn clean install -f ${current.project.path} && cp ${current.project.path}/target/*.war $TOMCAT_HOME/webapps/ROOT.war",
+        "commandLine": "$TOMCAT_HOME/bin/shutdown.sh && $TOMCAT_HOME/bin/startup.sh",
+        "name": "restartTomcat",
+        "attributes": {
+          "goal": "Run",
+          "previewUrl": "${server.tomcat8}"
+        },
+        "type": "custom"
+      },
+      {
+        "commandLine": "mvn clean install -f ${current.project.path}/pom.xml && cp ${current.project.path}/target/*.war $TOMCAT_HOME/webapps/ROOT.war",
         "name": "deploy",
         "attributes": {
           "goal": "Deploy",
           "previewUrl": "${server.tomcat8}"
-        },
-        "type": "mvn"
-      },
-      {
-        "commandLine": "mvn clean install -f ${current.project.path}",
-        "name": "build",
-        "attributes": {
-          "goal": "Build",
-          "previewUrl": ""
         },
         "type": "mvn"
       }
@@ -92,20 +132,19 @@
     "links": []
   },
   "ide": {
-    "onProjectsLoaded": {
-      "actions": [
-        {
-          "properties": {
-            "name": "startTomcat"
-          },
-          "id": "runCommand"
-        }
-      ]
-    }
+  	"onProjectsLoaded": {
+  		"actions": [
+  			{
+  				"id": "runCommand",
+  				"properties": {
+  					"name": "startTomcat"
+  				}
+  			}
+  		]
+  	}
   },
   "creator": {
-    "name": "edeandrea",
-    "email": "eric.deandrea@redhat.com"
+    "name": "Eric Deandrea",
+    "email": "edeandrea@redhat.com"
   }
 }
-
