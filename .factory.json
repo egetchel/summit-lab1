@@ -48,13 +48,9 @@
     },
     "projects": [
       {
-        "links": [],
         "name": "SampleWebApp",
-        "attributes": {},
         "type": "maven",
-        "path": "/",
-        "problems": [],
-        "mixins": []
+        "path": "/SampleWebApp",
       }
     ],
     "name": "transitioning-lab",
