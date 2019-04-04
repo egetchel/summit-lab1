@@ -47,29 +47,7 @@
       }
     },
     "projects": [
-      {
-        "links": [],
-        "name": "transitioning-applications",
-        "attributes": {},
-        "type": "blank",
-        "source": {
-          "location": "https://gitlab.com/edeandrea/transitioning-existing-applications-to-containers-its-easier-than-you-think.git",
-          "type": "git",
-          "parameters": {}
-        },
-        "path": "/transitioning-applications",
-        "problems": [],
-        "mixins": []
-      },
-      {
-        "links": [],
-        "name": "SampleWebApp",
-        "attributes": {},
-        "type": "maven",
-        "path": "/transitioning-applications/projects/SampleWebApp",
-        "problems": [],
-        "mixins": []
-      }
+      
     ],
     "name": "transitioning-lab",
     "attributes": {},
