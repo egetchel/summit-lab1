@@ -57,7 +57,7 @@
         "type": "mvn"
       },
       {
-        "commandLine": "mvn clean install -f ${current.project.path}/pom.xml && cp ${current.project.path}/target/*.war $TOMCAT_HOME/webapps/ROOT.war",
+        "commandLine": "mvn clean install -f ${current.project.path}/pom/xml && cp ${current.project.path}/target/*.war $TOMCAT_HOME/webapps/ROOT.war",
         "name": "Buid and Deploy",
         "attributes": {
           "goal": "Deploy",
@@ -68,18 +68,13 @@
       {
         "commandLine": "$TOMCAT_HOME/bin/startup.sh",
         "name": "Start Tomcat",
-        "attributes": {
-          "goal": "Run",
-          "previewUrl": "${server.tomcat8}"
-        },
+        "attributes": {},
         "type": "custom"
       },
       {
         "commandLine": "$TOMCAT_HOME/bin/shutdown.sh",
         "name": "Stop Tomcat",
-        "attributes": {
-          "goal": "Deploy",
-        },
+        "attributes": {},
         "type": "custom"
       },
       {
