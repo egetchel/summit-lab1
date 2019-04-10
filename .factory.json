@@ -57,21 +57,34 @@
         "type": "mvn"
       },
       {
-        "commandLine": "${HOME}/stack-analysis.sh -f ${current.project.path}/pom.xml -p ${current.project.path}",
-        "name": "dependency_analysis",
+        "commandLine": "mvn clean install -f ${current.project.path}",
+        "name": "build2",
         "attributes": {
-          "goal": "Run"
+          "goal": "Build",
+          "previewUrl": ""
         },
+        "type": "mvn"
+      },
+      {
+        "commandLine": "mvn clean install -f ${current.project.path} && cp ${current.project.path}/target/*.war $TOMCAT_HOME/webapps/ROOT.war",
+        "name": "Buid and Deploy",
+        "attributes": {
+          "goal": "Deploy",
+          "previewUrl": "${server.tomcat8}"
+        },
+        "type": "mvn"
+      },
+      {
+        "commandLine": "$TOMCAT_HOME/bin/startup.sh",
+        "name": "Start Tomcat",
+        "attributes": {},
         "type": "custom"
       },
       {
-        "commandLine": "mvn clean spring-boot:run -f ${current.project.path}/pom.xml",
-        "name": "Run application locally",
-        "attributes": {
-          "goal": "Run",
-          "previewUrl": "${server.springboot}"
-        },
-        "type": "mvn"
+        "commandLine": "$TOMCAT_HOME/bin/shutdown.sh",
+        "name": "Stop Tomcat",
+        "attributes": {},
+        "type": "custom"
       },
       {
         "commandLine": "mvn clean fabric8:deploy -f ${current.project.path}/pom.xml -P openshift -DskipTests",
