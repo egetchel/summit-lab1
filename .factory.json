@@ -68,7 +68,9 @@
       {
         "commandLine": "$TOMCAT_HOME/bin/startup.sh",
         "name": "Start Tomcat",
-        "attributes": {},
+        "attributes": {
+          "previewUrl": "${server.tomcat8}"
+        },
         "type": "custom"
       },
       {
