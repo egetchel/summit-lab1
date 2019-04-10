@@ -57,6 +57,15 @@
         "type": "mvn"
       },
       {
+        "commandLine": "mvn clean install -f ${current.project.path}",
+        "name": "build2",
+        "attributes": {
+          "goal": "Build",
+          "previewUrl": ""
+        },
+        "type": "mvn"
+      },
+      {
         "commandLine": "mvn clean install -f ${current.project.path} && cp ${current.project.path}/target/*.war $TOMCAT_HOME/webapps/ROOT.war",
         "name": "Buid and Deploy",
         "attributes": {
@@ -92,3 +101,4 @@
     "email": "edeandrea@redhat.com"
   }
 }
+
