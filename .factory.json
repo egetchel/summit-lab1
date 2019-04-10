@@ -57,7 +57,7 @@
         "type": "mvn"
       },
       {
-        "commandLine": "mvn clean install -f ${current.project.path}/pom/xml && cp ${current.project.path}/target/*.war $TOMCAT_HOME/webapps/ROOT.war",
+        "commandLine": "mvn clean install -f ${current.project.path} && cp ${current.project.path}/target/*.war $TOMCAT_HOME/webapps/ROOT.war",
         "name": "Buid and Deploy",
         "attributes": {
           "goal": "Deploy",
