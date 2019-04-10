@@ -1,6 +1,6 @@
 {
   "v": "4.0",
-  "name": "transitioning-lab",
+  "name": "lab-01",
   "workspace": {
     "defaultEnv": "default",
     "environments": {
@@ -11,14 +11,8 @@
               "memoryLimitBytes": "2147483648"
             },
             "servers": {
-              "tomcat8-debug": {
-                "port": "8000",
-                "attributes": {},
-                "protocol": "http"
-              },
               "tomcat8": {
                 "port": "8080",
-                "attributes": {},
                 "protocol": "http"
               }
             },
@@ -34,10 +28,9 @@
               "org.eclipse.che.exec",
               "org.eclipse.che.terminal",
               "org.eclipse.che.ws-agent",
-              "org.eclipse.che.ls.java",	
+              "org.eclipse.che.ls.java",
               "com.redhat.bayesian.lsp"
-            ],
-            "env": {}
+            ]
           }
         },
         "recipe": {
@@ -50,18 +43,16 @@
       {
         "name": "SampleWebApp",
         "type": "maven",
-        "path": "/SampleWebApp",
+        "path": "/SampleWebApp"
       }
     ],
     "name": "SampleWebApp",
-    "attributes": {},
     "commands": [
       {
         "commandLine": "mvn clean install -f ${current.project.path}/pom.xml",
         "name": "build",
         "attributes": {
-          "goal": "Build",
-          "previewUrl": ""
+          "goal": "Build"
         },
         "type": "mvn"
       },
@@ -69,61 +60,28 @@
         "commandLine": "${HOME}/stack-analysis.sh -f ${current.project.path}/pom.xml -p ${current.project.path}",
         "name": "dependency_analysis",
         "attributes": {
-          "goal": "Run",
-          "previewUrl": ""
+          "goal": "Run"
         },
         "type": "custom"
       },
       {
-        "commandLine": "$TOMCAT_HOME/bin/shutdown.sh",
-        "name": "stopTomcat",
+        "commandLine": "mvn clean spring-boot:run -f ${current.project.path}/pom.xml",
+        "name": "Run application locally",
         "attributes": {
           "goal": "Run",
-          "previewUrl": ""
+          "previewUrl": "${server.springboot}"
         },
-        "type": "custom"
+        "type": "mvn"
       },
       {
-        "commandLine": "$TOMCAT_HOME/bin/startup.sh",
-        "name": "startTomcat",
+        "commandLine": "mvn clean fabric8:deploy -f ${current.project.path}/pom.xml -P openshift -DskipTests",
+        "name": "Deploy to Openshift",
         "attributes": {
-          "goal": "Run",
-          "previewUrl": "${server.tomcat8}"
-        },
-        "type": "custom"
-      },
-      {
-        "commandLine": "$TOMCAT_HOME/bin/shutdown.sh && $TOMCAT_HOME/bin/startup.sh",
-        "name": "restartTomcat",
-        "attributes": {
-          "goal": "Run",
-          "previewUrl": "${server.tomcat8}"
-        },
-        "type": "custom"
-      },
-      {
-        "commandLine": "mvn clean install -f ${current.project.path}/pom.xml && cp ${current.project.path}/target/*.war $TOMCAT_HOME/webapps/ROOT.war",
-        "name": "deploy",
-        "attributes": {
-          "goal": "Deploy",
-          "previewUrl": "${server.tomcat8}"
+          "goal": "Deploy"
         },
         "type": "mvn"
       }
-    ],
-    "links": []
-  },
-  "ide": {
-  	"onProjectsLoaded": {
-  		"actions": [
-  			{
-  				"id": "runCommand",
-  				"properties": {
-  					"name": "startTomcat"
-  				}
-  			}
-  		]
-  	}
+    ]
   },
   "creator": {
     "name": "Eric Deandrea",
