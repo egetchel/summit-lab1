@@ -60,8 +60,7 @@
         "commandLine": "mvn clean install -f ${current.project.path}/pom.xml && cp ${current.project.path}/target/*.war $TOMCAT_HOME/webapps/ROOT.war",
         "name": "Buid and Deploy",
         "attributes": {
-          "goal": "Deploy",
-          "previewUrl": "${server.tomcat8}"
+          "goal": "Deploy"
         },
         "type": "mvn"
       },
@@ -90,8 +89,8 @@
     ]
   },
   "creator": {
-    "name": "Eric Deandrea",
-    "email": "edeandrea@redhat.com"
+    "name": "Eric Getchell",
+    "email": "egetchel@redhat.com"
   }
 }
 
