@@ -11,6 +11,7 @@
 	<url>http://maven.apache.org</url>
 	<properties>
 		<version.war.plugin>2.5</version.war.plugin>
+		<fabric8-maven-plugin.version>3.5.42</fabric8-maven-plugin.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -43,6 +44,14 @@
 		<finalName>${project.artifactId}</finalName>
 		<plugins>
 			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.5.1</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
 				<version>${version.war.plugin}</version>
 				<configuration>
@@ -54,4 +63,5 @@
 			</plugin>
 		</plugins>
 	</build>
+	<!-- Lab 2 - Add the profile here -->
 </project>
