@@ -58,7 +58,7 @@
       },
       {
         "commandLine": "mvn clean install -f ${current.project.path}/pom.xml && cp ${current.project.path}/target/*.war $TOMCAT_HOME/webapps/ROOT.war",
-        "name": "Buid and Deploy",
+        "name": "Buid and Deploy Locally",
         "attributes": {
           "goal": "Deploy"
         },
@@ -80,7 +80,7 @@
       },
       {
         "commandLine": "mvn clean fabric8:deploy -Dfabric8.mode=openshift -Dfabric8.build.strategy=docker -Dfabric8.generator.from=jboss-webserver-3/webserver31-tomcat8-openshift -f ${current.project.path}/pom.xml -P openshift -DskipTests",
-        "name": "Deploy to Openshift",
+        "name": "Build and Deploy to OpenShift",
         "attributes": {
           "goal": "Deploy"
         },
