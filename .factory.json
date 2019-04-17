@@ -79,7 +79,7 @@
         "type": "custom"
       },
       {
-        "commandLine": "mvn clean fabric8:deploy -Dfabric8.mode=openshift -Dfabric8.build.strategy=docker -f ${current.project.path}/pom.xml -P openshift -DskipTests",
+        "commandLine": "mvn clean fabric8:deploy -Dfabric8.mode=openshift -Dfabric8.build.strategy=docker -Dfabric8.generator.from=jboss-webserver-3/webserver31-tomcat8-openshift -f ${current.project.path}/pom.xml -P openshift -DskipTests",
         "name": "Deploy to Openshift",
         "attributes": {
           "goal": "Deploy"
